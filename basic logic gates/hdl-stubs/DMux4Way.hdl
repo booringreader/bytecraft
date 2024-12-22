@@ -1,18 +1,25 @@
-// This file is part of www.nand2tetris.org
-// and the book "The Elements of Computing Systems"
-// by Nisan and Schocken, MIT Press.
-// File name: projects/1/DMux4Way.hdl
 /**
  * 4-way demultiplexor:
  * [a, b, c, d] = [in, 0, 0, 0] if sel = 00
  *                [0, in, 0, 0] if sel = 01
  *                [0, 0, in, 0] if sel = 10
  *                [0, 0, 0, in] if sel = 11
+ * 
+ * S1S0
+ * going Left to Right in the Dmux
+ * take 'in' as input, choose from outA or outB stream to pass 'in':S1
+ * pass on 'in' to either outA or outB, based on teh value of S1
+ * 
+ * next, if outA has the 'in' signal it will pass it to either a or b
+ * if outB has the 'in' signal it will pass it to either c or d
  */
+
 CHIP DMux4Way {
     IN in, sel[2];
     OUT a, b, c, d;
 
     PARTS:
-    //// Replace this comment with your code.
+    DMux(in=in, sel=sel[1], a=outA, b=outB);
+    DMux(in=outA, sel=sel[0], a=a, b=b);
+    DMux(in=outB, sel=sel[0], a=c, b=d);
 }
