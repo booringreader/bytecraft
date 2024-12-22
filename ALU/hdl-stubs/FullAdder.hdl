@@ -1,0 +1,22 @@
+/**
+ * Computes the sum of three bits.
+ * 
+ * draw the truth table of operations for all possible inputs (8 sets in this case) 
+ * form boolean expression using arithmetic operations (write expression of each row and simplify them) OR use k-maps OR tabular method
+ * create the corresponding hdl for the expression
+ * 
+ * this may use a lot of chips, hence, may not be the most optimised
+ */
+CHIP FullAdder {
+    IN a, b, c;  // 1-bit inputs
+    OUT sum,     // Right bit of a + b + c
+        carry;   // Left bit of a + b + c
+
+    PARTS:
+    // sum = a xor b xor c
+    HalfAdder(a=a, b=b, sum=sumAB, carry=carry1);
+    HalfAdder(a=sumAB, b=c, sum=sum, carry=carry2);
+
+    // carry = a AND b OR (c AND (a OR b))
+    Or(a=carry1, b=carry2, out=carry); 
+}
